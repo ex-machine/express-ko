@@ -77,5 +77,8 @@
   "//": [
     "npm run version -- 1.0.0"
   ],
-  "scripts": {}
+  "scripts": {
+    "version": "mversion -n -m %s",
+    "test": "gulp test"
+  }
 }

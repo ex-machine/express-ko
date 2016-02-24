@@ -15,10 +15,12 @@
 	},
 	"env": {
 		"es6": true,
-		"node": true
+		"node": true,
+		"mocha": true
 	},
 	"globals": {
 		"arguments": true,
-		"require": false
+		"expect": true,
+		"sinon": true
 	}
 }
