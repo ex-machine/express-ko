@@ -276,7 +276,7 @@ A rejection with `<error>` value executes `next(<error>)`.
 
 ```javascript
 app.all('/foo', (req, res, next) => {
-	next(error');
+	next('error');
 }); 
 ```
 
