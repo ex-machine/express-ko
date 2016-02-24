@@ -363,3 +363,7 @@ app.all('/foo', function* (req, res) {
 ```javascript
 app.all('/foo', (req, res) => ....then(() => 200)); 
 ```
+
+# Examples
+
+`foobar` application illustrates the new syntax for asynchronous handlers and is available in [examples](examples) folder, along with `foobar-vanilla` application that features the original syntax for side-by-side comparison.
