@@ -1,5 +1,7 @@
 Brings generators and promises to Express 4.x middleware and route handlers.
 
+[![Build Status](https://travis-ci.org/ex-machine/express-ko.svg?branch=master)](https://travis-ci.org/ex-machine/express-ko) [![Coverage Status](https://coveralls.io/repos/github/ex-machine/express-ko/badge.svg)](https://coveralls.io/github/ex-machine/express-ko)
+
 # Description
 
 `express-ko` unleashes the power of coroutines on Express middleware functions with a touch of Koa (actually, it is a portmanteau of `koa` and `co`).
