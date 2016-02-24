@@ -11,4 +11,6 @@ Thumbs.db
 /vendor
 
 /tmp
+/test/coverage
 /test/express/test
+

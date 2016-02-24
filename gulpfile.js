@@ -18,6 +18,7 @@ let gulp$ = extend(require('gulp-load-plugins')({ pattern: ['gulp-*', 'gulp.*', 
 
 
 
+let coveragePath = path.resolve('test/coverage');
 let expressTmpPath = path.resolve('tmp/express');
 let expressSpecsPath = path.resolve('test/express/test');
 
@@ -46,10 +47,15 @@ gulp.task('test:acceptance', () => {
 	}));
 });
 
-gulp.task('test:unit', () => {
+gulp.task('test:unit:clean', () => del([coveragePath]));
+
+gulp.task('test:unit', ['test:unit:clean'], () => {
 	return gulp.src(['test/unit/**/*.spec.js'])
 	.pipe(gulp$.debug({ title: 'test:unit' }))
 	.pipe(gulp$.spawnMocha({
+		istanbul: {
+			dir: coveragePath
+		},		
 		bail: false,
 		ignoreLeaks: false,
 		slow: 20,

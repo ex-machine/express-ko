@@ -13,5 +13,8 @@ before_install:
   - npm up -g npm
   - npm --version
 
+after_success:
+  - ./node_modules/.bin/coveralls --verbose < test/coverage/lcov.info
+
 git:
   depth: 10
