@@ -74,9 +74,9 @@ let app = express();
 let router = Router();
 
 app.use(router);
-app.use(function (req, res, next) { ... })
-app.param(function* (req, res, next, val) { ... });
-router.use(function (err, req, res, next) { ... });
+app.use(function (req, res, next) { … })
+app.param(function* (req, res, next, val) { … });
+router.use(function (err, req, res, next) { … });
 ```
 
 ### Unpatched router (playing safe)
@@ -93,9 +93,9 @@ let app = express();
 let router = express.Router();
 
 app.use(router);
-app.use(function (req, res, next) { ... });
-app.param(ko(function* (req, res, next, id) { ... }, true));
-router.use(ko(function (err, req, res, next) { ... }));
+app.use(function (req, res, next) { … });
+app.param(ko(function* (req, res, next, id) { … }, true));
+router.use(ko(function (err, req, res, next) { … }));
 ```
 
 # async/await 
@@ -107,7 +107,7 @@ Current implementations (TypeScript, Babel, Regenerator) fall back to generator 
 
 ```javascript
 app.all('/foo', (req, res, next) => {
-	....then(() => {
+	….then(() => {
 		res.send('foo');
 		next();
 	});
@@ -118,7 +118,7 @@ app.all('/foo', (req, res, next) => {
 
 ```javascript
 app.all('/foo', async (req, res) => {
-	await ...;
+	await …;
 	return res.send('foo');
 }); 
 ```
@@ -127,7 +127,7 @@ app.all('/foo', async (req, res) => {
 
 ```javascript
 app.all('/foo', function* (req, res) {
-	yield ...;
+	yield …;
 	return res.send('foo');
 }); 
 ```
@@ -135,14 +135,14 @@ app.all('/foo', function* (req, res) {
 ### Alternative way (promises)
 
 ```javascript
-app.all('/foo', (req, res) => ....then(() => res.send('foo'))); 
+app.all('/foo', (req, res) => ….then(() => res.send('foo'))); 
 ```
 
 ## Implicit `next()`
 
 A resolution with `req` or `res` chain value executes `next()` and proceeds to next handler/middleware.
 
-It is the most suitable way of treating `res.send(...); next();` case.
+It is the most suitable way of treating `res.send(…); next();` case.
 
 *Node.js HTTP methods (`.write()`, `.end()`) don't belong to Express API and aren't suitable for chaining; they return `boolean` and will cause undesirable implicit response.*
 
@@ -150,7 +150,7 @@ It is the most suitable way of treating `res.send(...); next();` case.
 
 ```javascript
 app.all('/foo', (req, res, next) => {
-	....then((foo) => {
+	….then((foo) => {
 		res.send(foo);
 		next();
 	});
@@ -160,7 +160,7 @@ app.all('/foo', (req, res, next) => {
 
 ```javascript
 app.all('/foo', function* (req, res) {
-	let foo = yield ...; 
+	let foo = yield …; 
 	return res.send(foo);
 }); 
 ```
@@ -168,7 +168,7 @@ app.all('/foo', function* (req, res) {
 ### Alternative way (promises)
 
 ```javascript
-app.all('/foo', (req, res) => ....then((foo) => res.send(foo))); 
+app.all('/foo', (req, res) => ….then((foo) => res.send(foo))); 
 ```
 
 ## Explicit `next()`
@@ -217,7 +217,7 @@ No magic word 'route' (it has got odorous code smell) has to be involved in this
 ```javascript
 app.all('/foo', (req, res, next) => {
 	next('route');
-}, ...); 
+}, …); 
 ```
 
 ### Suggested way (generators)
@@ -225,13 +225,13 @@ app.all('/foo', (req, res, next) => {
 ```javascript
 app.all('/foo', function* () {
 	return ko.NEXT_ROUTE;
-}, ...); 
+}, …); 
 ```
 
 ### Alternative way (promises)
 
 ```javascript
-app.all('/foo', () => Promise.resolve(ko.NEXT_ROUTE), ...); 
+app.all('/foo', () => Promise.resolve(ko.NEXT_ROUTE), …); 
 ```
 
 ## Implicit `next(<error>)`
@@ -291,7 +291,7 @@ app.all('/foo', function* () {
 ### Alternative ways (promises)
 
 ```javascript
-app.all('/foo', () => ....then(() => {
+app.all('/foo', () => ….then(() => {
 	throw new Error('error');
 })); 
 ```
@@ -306,7 +306,7 @@ app.all('/foo', function* () {
 
 A resolution with any value except `undefined` and `number` executes `res.send(<response>)`.
 
-It is the most suitable way of treating `res.send(...)` or `res.json(...)` with no `next()` case.
+It is the most suitable way of treating `res.send(…)` or `res.json(…)` with no `next()` case.
 
 *`res.send(<number>)` is deprecated in favour of `res.sendStatus(<number>)`. See Express 4.x source code and API documentation on how `res.send` makes decisions on content type.*
 
@@ -314,7 +314,7 @@ It is the most suitable way of treating `res.send(...)` or `res.json(...)` with 
 
 ```javascript
 app.all('/foo', (req, res) => {
-	....then((foo) => {
+	….then((foo) => {
 		res.send(foo);
 	});
 }); 
@@ -323,7 +323,7 @@ app.all('/foo', (req, res) => {
 
 ```javascript
 app.all('/foo', function* (req, res) {
-	let foo = yield ...; 
+	let foo = yield …; 
 	return foo;
 }); 
 ```
@@ -331,20 +331,20 @@ app.all('/foo', function* (req, res) {
 ### Alternative way (promises)
 
 ```javascript
-app.all('/foo', (req, res) => ....then((foo) => foo)); 
+app.all('/foo', (req, res) => ….then((foo) => foo)); 
 ```
 
 ## Implicit `res.sendStatus(<number>)`
 
 A resolution with `number` value executes `res.sendStatus(<number>)`.
 
-It is the most suitable way of treating `res.sendStatus(...)` with no `next()` case.
+It is the most suitable way of treating `res.sendStatus(…)` with no `next()` case.
 
 ### Original way
 
 ```javascript
 app.all('/foo', (req, res) => {
-	....then(() => {
+	….then(() => {
 		res.sendStatus(200);
 	});
 }); 
@@ -353,7 +353,7 @@ app.all('/foo', (req, res) => {
 
 ```javascript
 app.all('/foo', function* (req, res) {
-	yield ...; 
+	yield …; 
 	return 200;
 }); 
 ```
@@ -361,7 +361,7 @@ app.all('/foo', function* (req, res) {
 ### Alternative way (promises)
 
 ```javascript
-app.all('/foo', (req, res) => ....then(() => 200)); 
+app.all('/foo', (req, res) => ….then(() => 200)); 
 ```
 
 # Examples
