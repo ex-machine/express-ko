@@ -65,8 +65,9 @@ describe('koifyHandler', () => {
 			promiseResult = Promise.reject('result');
 			let fnResult = ko.ifyHandler(fn, args);
 
-			yield expect(fnResult).to.be.rejected;
-			yield expect(fnResult).to.be.rejectedWith('result');
+			// no unhandled rejection for Bluebird
+			yield expect(fnResult).to.be.fulfilled;
+			yield expect(fnResult).to.be.eventually.equal('result')
 		}));
 	});
 
@@ -102,8 +103,9 @@ describe('koifyHandler', () => {
 
 			let fnResult = ko.ifyHandler(fn, args);
 
-			yield expect(fnResult).to.be.rejected;
-			yield expect(fnResult).to.be.rejectedWith('result');
+			// no unhandled rejection for Bluebird
+			yield expect(fnResult).to.be.fulfilled;
+			yield expect(fnResult).to.be.eventually.equal('result')
 		}));
 	});
 
@@ -189,10 +191,13 @@ describe('koifyHandler', () => {
 
 			let fnResult = ko.ifyHandler(fn, args);
 
-			yield expect(fnResult).to.be.rejectedWith(error);
+			// no unhandled rejection for Bluebird
+			yield expect(fnResult).to.be.fulfilled;
+			yield expect(fnResult).to.be.eventually.equal(error)
 
 			expect(next).to.have.been.calledWithExactly(error);
 			expect(res.send).not.to.have.been.called;
+			expect(res.sendStatus).not.to.have.been.called;
 		}));
 
 		it('does nothing on `undefined` resolution', co.wrap(function* () {
@@ -235,10 +240,13 @@ describe('koifyHandler', () => {
 
 			let fnResult = ko.ifyHandler(fn, args);
 
-			yield expect(fnResult).to.be.rejectedWith(error);
+			// no unhandled rejection for Bluebird
+			yield expect(fnResult).to.be.fulfilled;
+			yield expect(fnResult).to.be.eventually.equal(error)
 
 			expect(next).to.have.been.calledWithExactly(error);
 			expect(res.send).not.to.have.been.called;
+			expect(res.sendStatus).not.to.have.been.called;
 		}));
 	});
 
