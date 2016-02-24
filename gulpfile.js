@@ -38,29 +38,23 @@ gulp.task('test:package', () => gulp$.runSequence(
 gulp.task('test:acceptance', () => {
 	return gulp.src(['test/acceptance/**/*.spec.js'])
 	.pipe(gulp$.debug({ title: 'test:unit' }))
-	.pipe(gulp$.mocha({
+	.pipe(gulp$.spawnMocha({
 		bail: false,
 		ignoreLeaks: false,
 		slow: 100,
 		require: ['env-test', path.resolve('test/prereqs-acceptance')]
-	}))
-	.once('error', (err) => {
-		throw err;
-	});
+	}));
 });
 
 gulp.task('test:unit', () => {
 	return gulp.src(['test/unit/**/*.spec.js'])
 	.pipe(gulp$.debug({ title: 'test:unit' }))
-	.pipe(gulp$.mocha({
+	.pipe(gulp$.spawnMocha({
 		bail: false,
 		ignoreLeaks: false,
 		slow: 20,
 		require: [path.resolve('test/prereqs-unit')]
-	}))
-	.once('error', (err) => {
-		throw err;
-	})
+	}));
 });
 
 gulp.task('test:express', () => {
@@ -73,14 +67,11 @@ gulp.task('test:express', () => {
 
 	return gulp.src([path.join(expressSpecsPath, '*.js'), ...blacklisted])
 	.pipe(gulp$.debug({ title: 'test:express' }))
-	.pipe(gulp$.mocha({
+	.pipe(gulp$.spawnMocha({
 		bail: false,
 		ignoreLeaks: false,
 		require: [path.join(expressSpecsPath, 'support/env')]
-	}))
-	.once('error', (err) => {
-		throw err;
-	});
+	}));
 });
 
 gulp.task('test:express-prepare:clean', () => del([expressSpecsPath]));
