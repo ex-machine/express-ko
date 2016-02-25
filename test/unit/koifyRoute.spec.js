@@ -1,5 +1,6 @@
 'use strict';
 
+let decache = require('decache');
 let http = require('http');
 let ko = require('../..');
 
@@ -99,6 +100,6 @@ describe('koifyRoute', () => {
 
 	afterEach(() => {
 		sandbox.restore();
-		delete require.cache[require.resolve('express')]
+		decache('express');
 	});
 });
