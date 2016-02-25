@@ -17,7 +17,7 @@ describe('ko', () => {
 		it('has safeguard property', () => {
 			let wrappedFn = ko(fn);
 
-			expect(wrappedFn).to.have.ownProperty('$$koified');
+			expect(wrappedFn).to.have.property('$$koified', true);
 		});
 
 		it('is not double-wrapped', () => {
@@ -25,6 +25,15 @@ describe('ko', () => {
 
 			expect(wrappedFn).to.equal(ko(wrappedFn));
 		});
+	});
+
+	it('skips middleware with safeguard', () => {
+		let middleware = sandbox.stub();
+		middleware.$$koified = false;
+
+		let wrappedFn = ko(middleware);
+
+		expect(wrappedFn).to.equal(middleware);
 	});
 
 	it('wraps handler', () => {

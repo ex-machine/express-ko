@@ -51,6 +51,8 @@ describe('koifyRouter', () => {
 
 			ko.ifyRouter(Router);
 
+			expect(Router).to.have.property('$$koified', false);
+
 			let router = Router();
 
 			router.use(handlers[0], handlers[1], handlers[2]);
@@ -59,10 +61,12 @@ describe('koifyRouter', () => {
 			expect(originalRouterUse).to.have.been.calledWithExactly(koifiedHandlers[0], koifiedHandlers[1], koifiedHandlers[2]);
 		});
 
-		it('calls the original with unmodified router instance', () => {
+		it('calls the original with with koified handler and unmodified Router instance', () => {
 			ko.ko.onCall(0).returns(koifiedHandlers[0]);
 
 			ko.ifyRouter(Router);
+
+			expect(Router).to.have.property('$$koified', false);
 
 			let router = Router();
 			let anotherRouter = Router();
@@ -71,6 +75,41 @@ describe('koifyRouter', () => {
 
 			expect(ko.ko).to.have.been.calledOnce;
 			expect(originalRouterUse).to.have.been.calledWithExactly(koifiedHandlers[0], anotherRouter);
+		});
+
+		it('calls the original with unmodified instance of another Router', () => {
+			decache('express');
+			let AnotherRouter = require('express').Router;
+
+			expect(Router).not.to.equal(AnotherRouter);
+
+			ko.ifyRouter(Router);
+
+			expect(Router).to.have.property('$$koified', false);
+
+			let router = Router();
+			let anotherRouter = AnotherRouter();
+
+			router.use(anotherRouter);
+
+			expect(anotherRouter).not.to.have.property('$$koified');
+			expect(ko.ko).not.to.have.been.called;
+			expect(originalRouterUse).to.have.been.calledWithExactly(anotherRouter);
+		});
+
+		it('calls the original with unmodified middleware', () => {
+			let middleware = sandbox.stub();
+			middleware.$$koified = false;
+
+			ko.ko.onCall(0).returns(middleware);
+
+			let router = Router();
+			ko.ifyRouter(Router);
+
+			router.use(middleware);
+
+			expect(ko.ko).to.have.been.calledOnce;
+			expect(originalRouterUse).to.have.been.calledWithExactly(middleware);
 		});
 
 		it('returns Router instance', () => {
