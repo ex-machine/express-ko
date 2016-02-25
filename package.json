@@ -70,6 +70,7 @@
     "utils-merge": "1.0.0"
   },
   "dependencies": {
+    "array-equal": "^1.0.0",
     "co": "^4.0.0",
     "methods": "^1.0.0"
   },
