@@ -54,7 +54,7 @@ app.use(ko(function* () {
 
 The wrapper created with `ko()` converts generator functions to promises via `co`. It processes resolution/rejection of a promise chain from both regular and generator functions, doing nothing on the functions that don't return promises.
 
-### Patched router (recommended)
+### Patched global router (recommended)
 
 Express router may be patched with `ko.ify(express)` to replace all handlers supplied to router `use`, `param` and HTTP methods with wrapper functions that look for promises and generators.
 
@@ -79,7 +79,30 @@ app.param(function* (req, res, next, val) { … });
 router.use(function (err, req, res, next) { … });
 ```
 
-### Unpatched router (playing safe)
+### Patched isolated router (playing safe)
+
+A new instance of `express.Router` can be required with cache-mangling packages (`rewire`, etc) and patched.
+
+This technique is applicable to reusable router module that shouldn't affect Express applications that host it.  
+
+*Requiring entry point with `rewire('express').Router` may get cached `Router` module, it is preferable to `rewire` it directly.*
+
+```javascript
+let ko = require('express-ko');
+let rewire = require('rewire');
+
+let IsolatedRouter = rewire('express/lib/router');
+let IsolatedRoute = rewire('express/lib/router/route');
+ 
+let Router = ko.ify(IsolatedRouter, IsolatedRoute);
+let router = Router();
+
+router.use(function (err, req, res, next) { … });
+
+module.exports = router;
+```
+
+### Unpatched router
 
 Each callback may be wrapped with `ko()` or left intact.
 
