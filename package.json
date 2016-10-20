@@ -1,7 +1,7 @@
 {
   "name": "express-ko",
   "author": "ex-machine",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Brings generators and promises to Express 4 middleware and route handlers",
   "keywords": [
     "express",
