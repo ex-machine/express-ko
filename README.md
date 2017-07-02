@@ -321,7 +321,7 @@ app.all('/foo', () => ….then(() => {
 
 ```javascript
 app.all('/foo', function* () {
-	return Resolve.reject('error');
+	return Promise.reject('error');
 }); 
 ```
 
