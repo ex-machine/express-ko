@@ -1,4 +1,4 @@
-Brings generators and promises to Express 4.x middleware and route handlers.
+Brings generators, promises and `async` functions to Express 4.x middleware and route handlers.
 
 [![Build Status](https://travis-ci.org/ex-machine/express-ko.svg?branch=master)](https://travis-ci.org/ex-machine/express-ko) [![Coverage Status](https://coveralls.io/repos/github/ex-machine/express-ko/badge.svg)](https://coveralls.io/github/ex-machine/express-ko)
 
